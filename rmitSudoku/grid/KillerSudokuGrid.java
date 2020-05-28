@@ -25,13 +25,6 @@ import java.util.Map;
 public class KillerSudokuGrid extends SudokuGrid
 {
 
-	public Integer size = 0;
-	public int[] symbols = null;
-	public Integer[][] grid = null;
-	public Integer sqrt = 0;
-	public Integer cageNumber = null;
-	public List<Cage> cages = new ArrayList<>();
-	
     public KillerSudokuGrid() {
         super();
 
@@ -119,7 +112,7 @@ public class KillerSudokuGrid extends SudokuGrid
     } // end of validate()
     
     
-    class Cage {
+    public class Cage {
     	public int sum;
     	public List<Map<String, Integer>> positions;
     	

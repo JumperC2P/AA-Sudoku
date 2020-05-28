@@ -6,9 +6,7 @@ package grid;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 /**
@@ -22,10 +20,6 @@ import java.io.PrintWriter;
  */
 public class StdSudokuGrid extends SudokuGrid
 {
-	public Integer size = 0;
-	public int[] symbols = null;
-	public Integer[][] grid = null;
-	public Integer sqrt = 0;
 
     public StdSudokuGrid() {
         super();

@@ -105,43 +105,43 @@ public class RmitSudoku
             }
 
             // run solver
-//            boolean bSolvedSuccess = solver.solve(grid);
-//
-//            // stop timer
-//            long endTime = System.nanoTime();
-//
-//            if (bSolvedSuccess) {
-//                System.out.println("Solution found!\n");
-//            }
-//            else {
-//                System.out.println("No solution found!\n");
-//            }
-//
-//            // visualise solved grid
-//            if (bVisualise) {
-//                System.out.println("Solved grid:");
-//                // this will call grid.toString()
-//                System.out.println(grid);
-//            }
-//
-//            // display time taken
-//            System.out.println("time taken = "
-//                + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec.\n");
-//
-//
-//            // Check and validate solution
-//            if (grid.validate()) {
-//                System.out.println("Valid solution.");
-//            }
-//            else {
-//                System.out.println("Invalid solution.");
-//            }
-//
-//
-//            // output solved grid to file
-//            if (solvedGridOutFilename != null) {
-//                grid.outputGrid(solvedGridOutFilename);
-//            }
+            boolean bSolvedSuccess = solver.solve(grid);
+
+            // stop timer
+            long endTime = System.nanoTime();
+
+            if (bSolvedSuccess) {
+                System.out.println("Solution found!\n");
+            }
+            else {
+                System.out.println("No solution found!\n");
+            }
+
+            // visualise solved grid
+            if (bVisualise) {
+                System.out.println("Solved grid:");
+                // this will call grid.toString()
+                System.out.println(grid);
+            }
+
+            // display time taken
+            System.out.println("time taken = "
+                + ((double)(endTime - startTime)) / Math.pow(10, 9) + " sec.\n");
+
+
+            // Check and validate solution
+            if (grid.validate()) {
+                System.out.println("Valid solution.");
+            }
+            else {
+                System.out.println("Invalid solution.");
+            }
+
+
+            // output solved grid to file
+            if (solvedGridOutFilename != null) {
+                grid.outputGrid(solvedGridOutFilename);
+            }
 
         } // end of try-block
         catch (FileNotFoundException e) {

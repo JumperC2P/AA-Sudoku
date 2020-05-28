@@ -5,6 +5,10 @@
  package grid;
 
  import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import grid.KillerSudokuGrid.Cage;
 
 
 /**
@@ -13,6 +17,13 @@
  */
 public abstract class SudokuGrid
 {
+	
+	public Integer size = 0;
+	public int[] symbols = null;
+	public Integer[][] grid = null;
+	public Integer sqrt = 0;
+	public Integer cageNumber = null;
+	public List<Cage> cages = new ArrayList<>();
 
     /**
      * Load the specified file and construct an initial grid from the contents
