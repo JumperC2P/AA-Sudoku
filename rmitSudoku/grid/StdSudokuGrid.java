@@ -51,7 +51,7 @@ public class StdSudokuGrid extends SudokuGrid
     			// extract value and position
     			String[] items = line.split(" "); // (y,x), (value)
     			String[] position = items[0].split(","); // y, x
-    			grid[Integer.valueOf(position[1])][Integer.valueOf(position[0])] = Integer.valueOf(items[1]);
+    			grid[Integer.valueOf(position[0])][Integer.valueOf(position[1])] = Integer.valueOf(items[1]);
     			
     		}else {
     			// prepare for symbols to use
