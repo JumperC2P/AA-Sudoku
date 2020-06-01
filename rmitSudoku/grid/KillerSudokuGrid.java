@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import grid.KillerSudokuGrid.Cage;
+import solver.BackTrackUtils;
+
 
 /**
  * Class implementing the grid for Killer Sudoku.
@@ -105,10 +108,69 @@ public class KillerSudokuGrid extends SudokuGrid
 
     @Override
     public boolean validate() {
-        // TODO
-
-        // placeholder
-        return false;
+    	
+    	for (int currentY = 0; currentY < size; currentY++) {
+    		for (int currentX = 0; currentX < size; currentX++) {
+    			int currentNumber = grid[currentY][currentX];
+    			// validate for 3 constraints
+    			boolean basicValidation = BackTrackUtils.basicValidate(this, currentNumber, currentX, currentY);
+    			
+    			if (!basicValidation)
+    				return basicValidation;
+    			
+    			// compare the values in same cage
+    			List<Cage> cages = this.cages;
+    			
+    			Cage targetCage = null;
+    			
+    			for (Cage cage : cages) {
+    				for (Map<String, Integer> position : cage.positions) {
+    					int cageX = position.get("x");
+    					int cageY = position.get("y");
+    					if (cageX == currentX && cageY == currentY) {
+    						targetCage = cage;
+    						break;
+    					}
+    					if (targetCage != null)
+    						break;
+    				}
+    			}
+    			
+    			// It's impossible if the current number is greater than the sum of numbers in the same cage
+    			if (currentNumber >= targetCage.sum)
+    				return false;
+    			
+    			boolean isFull = true;
+    			int targetCageSum = 0;
+    			for (Map<String, Integer> position : targetCage.positions) {
+    				int cageX = position.get("x");
+    				int cageY = position.get("y");
+    				
+    				if (cageX == currentX && cageY == currentY) {
+    					targetCageSum += currentNumber;
+    					continue;
+    				}
+    				
+    				if (isFull && this.grid[cageY][cageX] == null) {
+    					isFull = false;
+    					continue;
+    				}
+    				
+    				if (this.grid[cageY][cageX] != null)
+    					targetCageSum += this.grid[cageY][cageX];
+    			}
+    			
+    			// If the cage is full of numbers, the sum of those numbers in the cage should be equals to the indicated value
+    			if (isFull && targetCageSum != targetCage.sum) 
+    				return false;
+    			
+    			// If the cage is not full of numbers, the sum of those numbers in the cage should not be equals to or greater than the indicated value
+    			if (!isFull && targetCageSum >= targetCage.sum)
+    				return false;
+    		}
+		}
+		
+		return true;
     } // end of validate()
     
     

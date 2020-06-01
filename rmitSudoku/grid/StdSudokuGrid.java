@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import solver.BackTrackUtils;
+
 
 /**
  * Class implementing the grid for standard Sudoku.
@@ -86,27 +88,8 @@ public class StdSudokuGrid extends SudokuGrid
     	for (int currentY = 0; currentY < size; currentY++) {
     		for (int currentX = 0; currentX < size; currentX++) {
     			int currentNumber = grid[currentY][currentX];
-    			for (int x = 0; x < size; x++) {
-    				if (currentX != x && grid[currentY][x] == currentNumber)
-    					return false;
-    			}
-    			
-    			// compare each number in one column
-    			for (int y = 0; y < size; y++) {
-    				if (currentY != y && grid[y][currentX] == currentNumber)
-    					return false;
-    			}
-    			
-    			// compare each number in one sub-grid
-    			int modX = currentX / sqrt;
-    			int modY = currentY / sqrt;
-    			
-    			for (int y = (modY*sqrt); y<((modY+1)*sqrt); y++) {
-    				for (int x = (modX*sqrt); x<((modX+1)*sqrt); x++) {
-    					if (currentX != x && currentY != y && grid[y][x] == currentNumber)
-    						return false;
-    				}
-    			}
+    			if (!BackTrackUtils.basicValidate(this, currentNumber, currentX, currentY))
+    				return false;
     		}
     	}
 		

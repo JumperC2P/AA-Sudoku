@@ -7,7 +7,6 @@ package solver;
 import java.util.List;
 import java.util.Map;
 
-import grid.CommonUtils;
 import grid.KillerSudokuGrid.Cage;
 import grid.SudokuGrid;
 
@@ -25,7 +24,7 @@ public class KillerBackTrackingSolver extends KillerSudokuSolver
     @Override
     public boolean solve(SudokuGrid sudokuGrid) {
     	
-    	Map<String, Integer> currentPosition = CommonUtils.findBlankPosition(sudokuGrid);
+    	Map<String, Integer> currentPosition = BackTrackUtils.findBlankPosition(sudokuGrid);
     	
     	if (currentPosition == null) {
     		return true;
@@ -53,7 +52,7 @@ public class KillerBackTrackingSolver extends KillerSudokuSolver
 	private boolean validateNumber(SudokuGrid sudokuGrid, int currentNumber, int currentX, int currentY) {
 		
 		// validate for 3 constraints
-		boolean basicValidation = CommonUtils.basicValidate(sudokuGrid, currentNumber, currentX, currentY);
+		boolean basicValidation = BackTrackUtils.basicValidate(sudokuGrid, currentNumber, currentX, currentY);
 		
 		if (!basicValidation)
 			return basicValidation;
