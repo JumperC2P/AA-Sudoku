@@ -19,7 +19,7 @@ public abstract class SudokuGrid
 {
 	
 	public Integer size = 0;
-	public int[] symbols = null;
+	public Integer[] symbols = null;
 	public Integer[][] grid = null;
 	public Integer sqrt = 0;
 	public Integer cageNumber = null;

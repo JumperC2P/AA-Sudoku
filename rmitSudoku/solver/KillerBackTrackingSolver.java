@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import grid.KillerSudokuGrid.Cage;
+import grid.KillerSudokuGrid.Cell;
 import grid.SudokuGrid;
 
 
@@ -63,9 +64,9 @@ public class KillerBackTrackingSolver extends KillerSudokuSolver
 		Cage targetCage = null;
 		
 		for (Cage cage : cages) {
-			for (Map<String, Integer> position : cage.positions) {
-				int cageX = position.get("x");
-				int cageY = position.get("y");
+			for (Cell position : cage.positions) {
+				int cageX = position.col;
+				int cageY = position.row;
 				if (cageX == currentX && cageY == currentY) {
 					targetCage = cage;
 					break;
@@ -81,9 +82,9 @@ public class KillerBackTrackingSolver extends KillerSudokuSolver
 		
 		boolean isFull = true;
 		int targetCageSum = 0;
-		for (Map<String, Integer> position : targetCage.positions) {
-			int cageX = position.get("x");
-			int cageY = position.get("y");
+		for (Cell position : targetCage.positions) {
+			int cageX = position.col;
+			int cageY = position.row;
 			
 			if (cageX == currentX && cageY == currentY) {
 				targetCageSum += currentNumber;

@@ -1,5 +1,7 @@
 package solver;
 
+import java.util.List;
+
 /**
  * @author Chih-Hsuan Lee <s3714761>
  *
@@ -18,6 +20,45 @@ public class HeaderNode extends DLXNode {
 		this.index = index;
 		headerNode = this;
 	}
+	
+	public List<DLXNode> coverNodesWithSkipped(List<DLXNode> coverCageNodes, DLXNode skipNode) {
+		return this.coverDownNodesWithSkipped(coverCageNodes, skipNode, this.downNode);
+	}
+	
+	private List<DLXNode> coverDownNodesWithSkipped(List<DLXNode> coverCageNodes, DLXNode skipNode, DLXNode downNode) {
+		
+		if (downNode == this.headerNode) {
+			return coverCageNodes;
+		}else if (downNode == skipNode){
+			return this.coverDownNodesWithSkipped(coverCageNodes, skipNode, downNode.downNode);
+		}else {
+			downNode.coverUD();
+			if (downNode != downNode.headerNode)
+				downNode.headerNode.size--;
+			coverCageNodes.add(downNode);
+			this.coverRightNode(downNode, downNode.rightNode);
+			return this.coverDownNodesWithSkipped(coverCageNodes, skipNode, downNode.downNode);
+		}
+	}
+	
+
+	public void uncoverNodesOnNode(DLXNode baseNode) {
+		this.uncoverUpNodesOnNode(baseNode, baseNode.downNode);
+	}
+
+	private void uncoverUpNodesOnNode(DLXNode baseNode, DLXNode endNode) {
+		if (baseNode == endNode) {
+			return;
+		}else {
+			baseNode.uncoverUD();
+			if (baseNode != baseNode.headerNode)
+				baseNode.headerNode.size++;
+			this.uncoverLeftNode(baseNode, baseNode.leftNode);
+//			this.uncoverUpNodesOnNode(baseNode.upNode, endNode);
+		}
+		
+	}
+
 	
 	public void coverNodes() {
 		
@@ -115,7 +156,7 @@ public class HeaderNode extends DLXNode {
 	}
 
 	private StringBuffer printNode(StringBuffer sb, HeaderNode rightNode) {
-		sb.append(rightNode.index);
+		sb.append(rightNode.index).append("(").append(rightNode.size).append(")");
 		if (rightNode == this) {
 			return sb;
 		}else {

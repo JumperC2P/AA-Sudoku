@@ -48,7 +48,7 @@ public class StdSudokuGrid extends SudokuGrid
     			size = Integer.valueOf(line);
     			sqrt = (int) Math.sqrt(size);
     			grid = new Integer[size][size];
-    			symbols = new int[size];
+    			symbols = new Integer[size];
     		}else if (line.length() == 5) {
     			// extract value and position
     			String[] items = line.split(" "); // (y,x), (value)

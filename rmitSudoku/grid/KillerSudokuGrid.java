@@ -8,11 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import grid.KillerSudokuGrid.Cage;
 import solver.BackTrackUtils;
 
 
@@ -55,7 +52,7 @@ public class KillerSudokuGrid extends SudokuGrid
 	    			size = Integer.valueOf(line);
 	    			sqrt = (int) Math.sqrt(size);
 	    			grid = new Integer[size][size];
-	    			symbols = new int[size];
+	    			symbols = new Integer[size];
 	    			break;
 	    		case 2:
 	    			// prepare for symbols to use
@@ -70,15 +67,10 @@ public class KillerSudokuGrid extends SudokuGrid
     				// 10 2,2 3,1 3,2 3,3
     				String[] items = line.split(" "); // (10), (2,2), (3,1), (3,2), (3,3)
     				
-    				List<Map<String, Integer>> positions = new ArrayList<>();
+    				List<Cell> positions = new ArrayList<>();
     				for (int i = 1; i<items.length; i++) {
     					String[] coordinates = items[i].split(","); // [2, 2], [3, 1], [3, 2], [3, 3] <= y, x
-    					
-    					Map<String, Integer> position = new HashMap<String, Integer>();
-    					position.put("x", Integer.valueOf(coordinates[1])); // (x, 2)
-    					position.put("y", Integer.valueOf(coordinates[0])); // (y, 2)
-    					
-    					positions.add(position); // [{x:2, y:2},{x:3, y:1},{x:3, y:2},{x:3, y:3}]
+    					positions.add(new Cell(Integer.valueOf(coordinates[0]), Integer.valueOf(coordinates[1]))); // [{x:2, y:2},{x:3, y:1},{x:3, y:2},{x:3, y:3}]
     				}
     				
     				cages.add(new Cage(Integer.valueOf(items[0]), positions));
@@ -124,9 +116,9 @@ public class KillerSudokuGrid extends SudokuGrid
     			Cage targetCage = null;
     			
     			for (Cage cage : cages) {
-    				for (Map<String, Integer> position : cage.positions) {
-    					int cageX = position.get("x");
-    					int cageY = position.get("y");
+    				for (Cell position : cage.positions) {
+    					int cageX = position.col;
+    					int cageY = position.row;
     					if (cageX == currentX && cageY == currentY) {
     						targetCage = cage;
     						break;
@@ -142,9 +134,9 @@ public class KillerSudokuGrid extends SudokuGrid
     			
     			boolean isFull = true;
     			int targetCageSum = 0;
-    			for (Map<String, Integer> position : targetCage.positions) {
-    				int cageX = position.get("x");
-    				int cageY = position.get("y");
+    			for (Cell position : targetCage.positions) {
+    				int cageX = position.col;
+    				int cageY = position.row;
     				
     				if (cageX == currentX && cageY == currentY) {
     					targetCageSum += currentNumber;
@@ -176,11 +168,11 @@ public class KillerSudokuGrid extends SudokuGrid
     
     public class Cage {
     	public int sum;
-    	public List<Map<String, Integer>> positions;
+    	public List<Cell> positions;
     	
     	public Cage() {}
     	
-    	public Cage(int sum, List<Map<String, Integer>> positions) {
+    	public Cage(int sum, List<Cell> positions) {
     		this.sum = sum;
     		this.positions = positions;
     	}
@@ -188,13 +180,29 @@ public class KillerSudokuGrid extends SudokuGrid
     	public String toString() {
     		StringBuffer sb = new StringBuffer();
     		sb.append("[");
-    		for (Map<String, Integer> position : positions) 
-    			sb.append("(").append(position.get("y")).append(", ").append(position.get("x")).append("),");
+    		for (Cell position : positions) 
+    			sb.append(position);
     		
-    		sb = new StringBuffer(sb.substring(0, sb.length()-1)).append("] = ");
+    		sb.append("] = ");
     		sb.append(sum);
     		
     		return sb.toString();
+    	}
+    	
+    }
+    
+    public class Cell {
+    	
+    	public int row;
+    	public int col;
+    	
+    	public Cell(int row, int col) {
+    		this.row = row;
+    		this.col = col;
+    	}
+    	
+    	public String toString() {
+    		return "(" + row + ", " + col + ")";
     	}
     	
     }

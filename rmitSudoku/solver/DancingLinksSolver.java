@@ -28,7 +28,7 @@ public class DancingLinksSolver extends StdSudokuSolver
     @Override
     public boolean solve(SudokuGrid sudokuGrid) {
     	if (matrixs == null)
-    		matrixs = MatrixUtils.generateMatrix(sudokuGrid.size, sudokuGrid.sqrt, sudokuGrid.symbols);
+    		matrixs = MatrixUtils.generateMatrix(sudokuGrid.size, sudokuGrid.sqrt, sudokuGrid.symbols, 4, null);
 //    	
     	removeRowsByGrid(sudokuGrid);
     	
