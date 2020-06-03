@@ -25,14 +25,14 @@ public class StdSudokuGrid extends SudokuGrid
 
     public StdSudokuGrid() {
         super();
-
-        // TODO: any necessary initialisation at the constructor
     } // end of StdSudokuGrid()
 
 
     /* ********************************************************* */
 
-
+    /**
+     * Read the file and prepare the sudoku grid
+     */
     @Override
     public void initGrid(String filename)
         throws FileNotFoundException, IOException
@@ -67,7 +67,9 @@ public class StdSudokuGrid extends SudokuGrid
     	
     } // end of initBoard()
 
-
+    /**
+     * Print the grid and cages to a file
+     */
     @Override
     public void outputGrid(String filename)
         throws FileNotFoundException, IOException
@@ -75,13 +77,22 @@ public class StdSudokuGrid extends SudokuGrid
     	CommonUtils.outputGrid(filename, grid, size);
     } // end of outputBoard()
 
-
+    
+    /**
+     * print the grid in console
+     * 
+     * @return a String Object of all the information in the StdSudokuGrid
+     */
 	@Override
     public String toString() {
         return CommonUtils.printGridAndCages(grid, size, sqrt, null);
     } // end of toString()
 
 	
+	/**
+     * check the standard sudoku grid is valid or not.
+     * @return true: valid, false: invalid
+     */
     @Override
     public boolean validate() {
     	

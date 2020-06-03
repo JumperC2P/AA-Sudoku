@@ -2,7 +2,6 @@ package solver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,6 +12,8 @@ import grid.KillerSudokuGrid.Cage;
 import grid.KillerSudokuGrid.Cell;
 
 /**
+ * The utilities related to matrix
+ * 
  * @author Chih-Hsuan Lee <s3714761>
  *
  */
@@ -20,6 +21,15 @@ public class MatrixUtils {
 	
 	public static Map<String, List<String>> combinations = new HashMap<>();
     
+	/**
+	 * The generation methods to prepare matrix
+	 * @param size the size of sudoku. For example, a 4x4 sudoku grid will give "4".
+	 * @param sqrt the sqrt of the size of sudoku. For example, a 4x4 sudoku grid will give "2".
+	 * @param symbols the symbols used in grid
+	 * @param numberOfConstraints the number of constraints
+	 * @param cages the cages for killer sudoku
+	 * @return matrixes
+	 */
     public static List<Matrix> generateMatrix(Integer size, Integer sqrt, Integer[] symbols, int numberOfConstraints, List<Cage> cages) {
 
     	// calculate which matrix should have cage constraint
@@ -28,9 +38,10 @@ public class MatrixUtils {
 			List<Integer> numbers = new ArrayList<Integer>(Arrays.asList(symbols));
 			int count = 1;
 			for (Cage cage : cages) {
-				
+				// To prepare the cage constraints, we need to know all the possibilities of numbers
 				List<List<Integer>> possibleValues = sum_up_recursive(new ArrayList<List<Integer>>(), numbers, cage.sum,new ArrayList<Integer>(), cage.positions.size());
 				
+				// Use the possibilities to get all the combinations
 				List<String> combineList = new ArrayList<>();
 				for (List<Integer> partial : possibleValues) {
 					int[] a = new int[partial.size()];
@@ -53,11 +64,14 @@ public class MatrixUtils {
 					}
 				}
 				
+				// save the combination based on the different cages.
 				combinations.put("cage"+count, combineList);
 				count++;
 			}
 		}
 		
+		
+		// Prepare to matrix
     	List<Matrix> matrixs = null;
     	matrixs = new ArrayList<>();
 		for (int row = 0; row < size; row++) {
@@ -104,25 +118,47 @@ public class MatrixUtils {
 	
 		
 		// To print the matrix
-		//1,1,1 | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c | c c c c c c c c c c c c c c c c 
-//		System.out.println("r,c,v | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c");
-//		System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-//		
-//		for (Matrix m : matrixs) {
-//			System.out.print(m.row+","+m.col+","+m.value+" | ");
-//			for (int i = 0; i < m.constraints.length; i++) {
-//				if (i != 0 && i % (size*size) == 0)
-//					System.out.print("| ");
-//				Integer val = m.constraints[i];
-//				System.out.print((val == null ? " ":m.constraints[i])+" ");
-//			}
-//			System.out.println();
-//			if (m.value % size == 0)
-//				System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-//		}
+//		printMatrix(matrixs, size);
 		return matrixs;
     }
     
+    
+    /**
+     * To print the matrix in the console
+     * 
+     * @param matrixes the matrix
+     * @param size the size of sudoku. For example, a 4x4 sudoku grid will give "4".
+     */
+    public static void printMatrix(List<Matrix> matrixes, int size) {
+    	//1,1,1 | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c | c c c c c c c c c c c c c c c c 
+		System.out.println("r,c,v | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c | c c c c c c c c c c c c c c c c");
+		System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		
+		for (Matrix m : matrixes) {
+			System.out.print(m.row+","+m.col+","+m.value+" | ");
+			for (int i = 0; i < m.constraints.length; i++) {
+				if (i != 0 && i % (size*size) == 0)
+					System.out.print("| ");
+				Integer val = m.constraints[i];
+				System.out.print((val == null ? " ":m.constraints[i])+" ");
+			}
+			System.out.println();
+			if (m.value % size == 0)
+				System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+		}
+    	
+    }
+    
+    /**
+     * To get all the possibilities to sum to an indicated value
+     * 
+     * @param list list to store results
+     * @param symbols all the symbols can be used
+     * @param target target value
+     * @param partial partial symbols
+     * @param limit the number which each sets can be used 
+     * @return all the possibilities
+     */
     public static List<List<Integer>> sum_up_recursive(List<List<Integer>> list, List<Integer> symbols, int target, List<Integer> partial, Integer limit) {
        int s = 0;
        
@@ -148,6 +184,14 @@ public class MatrixUtils {
     }
     
     
+    /**
+     * Based on the possibilities, to calculate all the combinations with different ordering
+     * 
+     * @param possible possibilities
+     * @param a symbols
+     * @param k a token number 
+     * @return all the combinations without duplication
+     */
     private static Set<List<Integer>> permute(Set<List<Integer>> possible, int[] a, int k) {
         if (k == a.length){
         	List<Integer> temp = new ArrayList<>();

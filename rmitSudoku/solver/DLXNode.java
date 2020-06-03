@@ -1,6 +1,8 @@
 package solver;
 
 /**
+ * A Node object of dancing link algorithm
+ * 
  * @author Chih-Hsuan Lee <s3714761>
  *
  */

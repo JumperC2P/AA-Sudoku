@@ -28,13 +28,14 @@ public class KillerSudokuGrid extends SudokuGrid
     public KillerSudokuGrid() {
         super();
 
-        // TODO: any necessary initialisation at the constructor
     } // end of KillerSudokuGrid()
 
 
     /* ********************************************************* */
 
-
+    /**
+     * Read the file and prepare the sudoku grid
+     */
     @Override
     public void initGrid(String filename)
         throws FileNotFoundException, IOException
@@ -61,9 +62,11 @@ public class KillerSudokuGrid extends SudokuGrid
 	    				this.symbols[i] = Integer.valueOf(symbols[i]);
 	    			break;
 	    		case 3:
+	    			// get the number of cages
 	    			cageNumber = Integer.valueOf(line);
 	    			break;
     			default:
+    				// extract cages information and save in a list
     				// 10 2,2 3,1 3,2 3,3
     				String[] items = line.split(" "); // (10), (2,2), (3,1), (3,2), (3,3)
     				
@@ -84,20 +87,33 @@ public class KillerSudokuGrid extends SudokuGrid
     } // end of initBoard()
 
 
+    /**
+     * Print the grid and cages to a file
+     */
     @Override
     public void outputGrid(String filename)
         throws FileNotFoundException, IOException
     {
+    	// call the method "outputGrid" in CommonUtils to print the gird out.
     	CommonUtils.outputGrid(filename, grid, size);
     } // end of outputBoard()
     
 
+    /**
+     * print the grid and cages in console
+     * 
+     * @return a String Object of all the information in the KillerSudokuGrid
+     */
     @Override
     public String toString() {
         return CommonUtils.printGridAndCages(grid, size, sqrt, cages);
     } // end of toString()
 
 
+    /**
+     * check the killer sudoku grid is valid or not.
+     * @return true: valid, false: invalid
+     */
     @Override
     public boolean validate() {
     	
@@ -165,7 +181,11 @@ public class KillerSudokuGrid extends SudokuGrid
 		return true;
     } // end of validate()
     
-    
+    /**
+     * The Object of Cage with storing the sum and cells
+     * @author Chih-Hsuan Lee <s3714761>
+     *
+     */
     public class Cage {
     	public int sum;
     	public List<Cell> positions;
@@ -191,6 +211,11 @@ public class KillerSudokuGrid extends SudokuGrid
     	
     }
     
+    /**
+     * The cell object of row and column
+     * @author Chih-Hsuan Lee <s3714761>
+     *
+     */
     public class Cell {
     	
     	public int row;

@@ -1,6 +1,9 @@
 package solver;
 
 /**
+ * Matrix object used for algorithm X and dancing link
+ * The object will store row, column, value and all the constraints.
+ * 
  * @author Chih-Hsuan Lee <s3714761>
  *
  */

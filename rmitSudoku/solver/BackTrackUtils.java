@@ -6,11 +6,20 @@ import java.util.Map;
 import grid.SudokuGrid;
 
 /**
+ * The BackTrackUtils contains two methods which are used in solving either standard or killer sudoku problems with backtracking mechansim.
+ * 
  * @author Chih-Hsuan Lee <s3714761>
  *
  */
 public class BackTrackUtils {
 	
+	/**
+	 * Find the blank cell and return with a map object
+	 * @param sudokuGrid the sudoku grid
+	 * @return two sets of data: 
+	 * 			x : column
+	 * 			y : row
+	 */
 	public static Map<String, Integer> findBlankPosition(SudokuGrid sudokuGrid){
 		
 		Map<String, Integer> map = new HashMap<>();
@@ -26,6 +35,17 @@ public class BackTrackUtils {
 		return null;
 	}
 	
+	/**
+	 * To do the basic validation of sudoku grid.
+	 * In the method, it only checks basic 3 constraints, 
+	 * which are box-value constraints, row-value constraints and column-value constraints
+	 * 
+	 * @param sudokuGrid the sudoku grid
+	 * @param currentNumber the current number to check
+	 * @param currentX the current column of the cell
+	 * @param currentY the current row of the cell
+	 * @return true: valid, false: invalid
+	 */
 	public static boolean basicValidate(SudokuGrid sudokuGrid, int currentNumber, int currentX, int currentY) {
 		
 
